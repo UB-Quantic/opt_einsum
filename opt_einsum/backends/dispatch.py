@@ -14,6 +14,7 @@ from . import jax as _jax
 from . import tensorflow as _tensorflow
 from . import theano as _theano
 from . import torch as _torch
+from . import pycompss
 
 __all__ = ["get_func", "has_einsum", "has_tensordot", "build_expression", "evaluate_constants", "has_backend"]
 
@@ -54,6 +55,9 @@ _cached_funcs = {
     ('tensordot', 'object'): numpy.tensordot,
     ('transpose', 'object'): numpy.transpose,
     ('einsum', 'object'): object_arrays.object_einsum,
+    ('einsum', 'pycompss'): pycompss.einsum,
+    ('tensordot', 'pycompss'): pycompss.tensordot,
+    ('transpose', 'pycompss'): pycompss.transpose
 }
 
 

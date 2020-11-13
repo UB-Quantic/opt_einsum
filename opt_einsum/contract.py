@@ -5,6 +5,8 @@ Contains the primary optimization and contraction routines.
 from collections import namedtuple
 from decimal import Decimal
 
+from pycompss.api.api import compss_wait_on
+
 from . import backends, blas, helpers, parser, paths, sharing
 
 __all__ = ["contract_path", "contract", "format_const_einsum_str", "ContractExpression", "shape_only"]
@@ -596,6 +598,7 @@ def _core_contract(operands, contraction_list, backend='auto', evaluate_constant
             new_view = _einsum(einsum_str, *tmp_operands, backend=backend, **einsum_kwargs)
 
         # Append new items and dereference what we can
+        new_view = compss_wait_on(new_view)
         operands.append(new_view)
         del tmp_operands, new_view
 
