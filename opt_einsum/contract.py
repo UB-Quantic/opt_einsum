@@ -598,13 +598,13 @@ def _core_contract(operands, contraction_list, backend='auto', evaluate_constant
             new_view = _einsum(einsum_str, *tmp_operands, backend=backend, **einsum_kwargs)
 
         # Append new items and dereference what we can
-        new_view = compss_wait_on(new_view)
         operands.append(new_view)
         del tmp_operands, new_view
 
     if specified_out:
         return out_array
     else:
+        operands = compss_wait_on(operands)
         return operands[0]
 
 
